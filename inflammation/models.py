@@ -68,10 +68,9 @@ class Observation:
         self.value = value
 
     def __str__(self):
-        return str(self.value)
+        return self.value
 
 class Person:
-    """A person."""
     def __init__(self, name):
         self.name = name
 
@@ -80,17 +79,25 @@ class Person:
 
 class Patient(Person):
     """A patient in an inflammation study."""
-    def __init__(self, name):
+    def __init__(self, name, observations=None):
         super().__init__(name)
+
         self.observations = []
+        ### MODIFIED START ###
+        if observations is not None:
+            self.observations = observations
+        ### MODIFIED END ###
 
     def add_observation(self, value, day=None):
         if day is None:
             try:
                 day = self.observations[-1].day + 1
+
             except IndexError:
                 day = 0
-        new_observation = Observation(day, value)
+
+        new_observation = Observation(value, day)
+
         self.observations.append(new_observation)
         return new_observation
 
